@@ -1,0 +1,3 @@
+<ul class="list-inside" th:with="categories = ${categoryFinder.listAsTree()}">
+  <li th:replace="~{modules/category-tree :: single(categories=${categories})}" />
+</ul>

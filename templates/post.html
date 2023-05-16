@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" th:replace="modules/layout :: html(content = ~{::content})">
   <th:block th:fragment="content">
-    <article class="prose !max-w-none p-4" th:classappend="${theme.config.post.content_size} + ' ' + ${theme.config.post.content_theme}">
-      <h1 th:text="${post.spec.title}"></h1>
-      <th:block th:utext="${post.content.content}"> </th:block>
-    </article>
+    <div class="flex w-full flex-row">
+      <div class="h-screen w-96 overflow-y-auto p-2">
+        <th:block th:replace="~{modules/sidebar}"></th:block>
+      </div>
+      <article
+        class="prose prose-base h-screen !max-w-none flex-1 overflow-y-auto break-words p-4 prose-pre:p-0"
+        th:classappend="${theme.config.post.content_size} + ' ' + ${theme.config.post.content_theme}"
+      >
+        <h1 th:text="${post.spec.title}"></h1>
+        <th:block th:utext="${post.content.content}"> </th:block>
+      </article>
+    </div>
   </th:block>
 </html>

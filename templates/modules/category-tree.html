@@ -1,0 +1,29 @@
+<ul th:fragment="next (categories)" class="ml-5 list-inside">
+  <li class="" th:fragment="single (categories)" th:each="categoryItem : ${categories}">
+    <a
+      class="block rounded p-1 text-blue-600 hover:bg-gray-200"
+      th:classappend="|${category != null and category.metadata.name == categoryItem.metadata.name ? 'bg-gray-200' : ''}|"
+      th:href="@{${categoryItem.status.permalink}}"
+      th:title="${categoryItem.spec.displayName}"
+    >
+      <span th:text="${categoryItem.spec.displayName}"> </span>
+    </a>
+    <th:block th:with="posts = ${postFinder.listByCategory(1, 999, categoryItem.metadata.name)}">
+      <ul th:unless="${#lists.isEmpty(posts.items)}" class="ml-5 list-inside">
+        <li th:each="postItem : ${posts.items}">
+          <a
+            class="block rounded p-1 text-black hover:bg-gray-200"
+            th:classappend="|${post != null and post.metadata.name == postItem.metadata.name ? 'bg-gray-200' : ''}|"
+            th:href="@{${postItem.status.permalink}}"
+            th:title="${postItem.spec.title}"
+          >
+            <span th:text="${postItem.spec.title}"> </span>
+          </a>
+        </li>
+      </ul>
+    </th:block>
+    <th:block th:if="${not #lists.isEmpty(categoryItem.children)}">
+      <th:block th:replace="~{modules/category-tree :: next (categories=${categoryItem.children})}"></th:block>
+    </th:block>
+  </li>
+</ul>
